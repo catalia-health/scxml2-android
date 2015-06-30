@@ -19,6 +19,7 @@ package org.apache.commons.scxml2.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.util.*;
 import org.apache.commons.scxml2.ActionExecutionContext;
 import org.apache.commons.scxml2.Context;
 import org.apache.commons.scxml2.Evaluator;
@@ -40,6 +41,7 @@ public class If extends Action implements ActionsContainer {
      * Serial version UID.
      */
     private static final long serialVersionUID = 1L;
+    private static final String TAG = "If";
 
     /**
      * An conditional expression which can be evaluated to true or false.
@@ -124,10 +126,8 @@ public class If extends Action implements ActionsContainer {
         try {
             rslt = eval.evalCond(ctx, cond);
             if (rslt == null) {
-                if (exctx.getAppLog().isDebugEnabled()) {
-                    exctx.getAppLog().debug("Treating as false because the cond expression was evaluated as null: '"
-                            + cond + "'");
-                }
+                android.util.Log.d(TAG, "Treating as false because the cond expression was evaluated as null: '"
+                        + cond + "'");
                 rslt = Boolean.FALSE;
             }
         } catch (SCXMLExpressionException e) {

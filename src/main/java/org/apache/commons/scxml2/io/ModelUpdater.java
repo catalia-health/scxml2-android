@@ -22,7 +22,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.StringTokenizer;
 
-import org.apache.commons.logging.LogFactory;
+import android.util.Log;
 import org.apache.commons.scxml2.model.EnterableState;
 import org.apache.commons.scxml2.model.History;
 import org.apache.commons.scxml2.model.Initial;
@@ -115,6 +115,7 @@ final class ModelUpdater {
     private static final String ERR_INVOKE_AMBIGUOUS_SRC = "{0} contains "
             + "<invoke> with both \"src\" and \"srcexpr\" attributes specified,"
             + " must specify either one, but not both.";
+    private static final String TAG = "ModelUpdater";
 
     /**
      * Discourage instantiation since this is a utility class.
@@ -405,9 +406,7 @@ final class ModelUpdater {
                                               final Object[] msgArgs) throws ModelException {
         MessageFormat msgFormat = new MessageFormat(errType);
         String errMsg = msgFormat.format(msgArgs);
-        org.apache.commons.logging.Log log = LogFactory.
-                getLog(ModelUpdater.class);
-        log.error(errMsg);
+        Log.e(TAG, errMsg);
         throw new ModelException(errMsg);
     }
 

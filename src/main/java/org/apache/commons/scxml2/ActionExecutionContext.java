@@ -16,7 +16,6 @@
  */
 package org.apache.commons.scxml2;
 
-import org.apache.commons.logging.Log;
 import org.apache.commons.scxml2.model.EnterableState;
 import org.apache.commons.scxml2.model.SCXML;
 
@@ -86,12 +85,5 @@ public class ActionExecutionContext {
      */
     public SCXMLIOProcessor getInternalIOProcessor() {
         return exctx;
-    }
-
-    /**
-     * @return Returns the SCXML Execution Logger for the application
-     */
-    public Log getAppLog() {
-        return exctx.getAppLog();
     }
 }

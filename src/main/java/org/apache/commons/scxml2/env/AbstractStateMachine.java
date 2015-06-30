@@ -23,8 +23,7 @@ import java.net.URL;
 
 import javax.xml.stream.XMLStreamException;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import android.util.Log;
 import org.apache.commons.scxml2.Context;
 import org.apache.commons.scxml2.Evaluator;
 import org.apache.commons.scxml2.SCXMLExecutor;
@@ -38,6 +37,7 @@ import org.apache.commons.scxml2.model.ModelException;
 import org.apache.commons.scxml2.model.SCXML;
 import org.apache.commons.scxml2.model.Transition;
 import org.apache.commons.scxml2.model.TransitionTarget;
+import org.xmlpull.v1.XmlPullParserException;
 
 /**
  * <p>This class demonstrates one approach for providing the base
@@ -65,6 +65,7 @@ import org.apache.commons.scxml2.model.TransitionTarget;
  */
 public abstract class AbstractStateMachine {
 
+    private static final String TAG = "AbstractStateMachine";
     /**
      * The state machine that will drive the instances of this class.
      */
@@ -74,11 +75,6 @@ public abstract class AbstractStateMachine {
      * The instance specific SCXML engine.
      */
     private SCXMLExecutor engine;
-
-    /**
-     * The log.
-     */
-    private Log log;
 
     /**
      * The method signature for the activities corresponding to each
@@ -118,12 +114,11 @@ public abstract class AbstractStateMachine {
      */
     public AbstractStateMachine(final URL scxmlDocument,
             final Context rootCtx, final Evaluator evaluator) throws ModelException {
-        log = LogFactory.getLog(this.getClass());
         try {
             stateMachine = SCXMLReader.read(scxmlDocument);
         } catch (IOException ioe) {
             logError(ioe);
-        } catch (XMLStreamException xse) {
+        } catch (XmlPullParserException xse) {
             logError(xse);
         } catch (ModelException me) {
             logError(me);
@@ -161,7 +156,6 @@ public abstract class AbstractStateMachine {
      */
     public AbstractStateMachine(final SCXML stateMachine,
             final Context rootCtx, final Evaluator evaluator) throws ModelException {
-        log = LogFactory.getLog(this.getClass());
         initialize(stateMachine, rootCtx, evaluator);
     }
 
@@ -215,24 +209,6 @@ public abstract class AbstractStateMachine {
     }
 
     /**
-     * Get the log for this class.
-     *
-     * @return Returns the log.
-     */
-    public Log getLog() {
-        return log;
-    }
-
-    /**
-     * Set the log for this class.
-     *
-     * @param log The log to set.
-     */
-    public void setLog(final Log log) {
-        this.log = log;
-    }
-
-    /**
      * Invoke the no argument method with the following name.
      *
      * @param methodName The method to invoke.
@@ -283,9 +259,7 @@ public abstract class AbstractStateMachine {
      * @param exception The exception leading to this error condition.
      */
     protected void logError(final Exception exception) {
-        if (log.isErrorEnabled()) {
-            log.error(exception.getMessage(), exception);
-        }
+        Log.e(TAG, exception.getMessage(), exception);
     }
 
     /**

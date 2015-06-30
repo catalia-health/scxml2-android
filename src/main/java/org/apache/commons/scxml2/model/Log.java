@@ -32,6 +32,7 @@ public class Log extends Action {
      * Serial version UID.
      */
     private static final long serialVersionUID = 1L;
+    private static final String TAG = "Log";
 
     /**
      * An expression evaluating to a string to be logged.
@@ -95,7 +96,7 @@ public class Log extends Action {
         Context ctx = exctx.getContext(getParentEnterableState());
         Evaluator eval = exctx.getEvaluator();
         ctx.setLocal(getNamespacesKey(), getNamespaces());
-        exctx.getAppLog().info(label + ": " + String.valueOf(getTextContentIfNodeResult(eval.eval(ctx, expr))));
+        android.util.Log.i(TAG, label + ": " + String.valueOf(getTextContentIfNodeResult(eval.eval(ctx, expr))));
         ctx.setLocal(getNamespacesKey(), null);
     }
 }

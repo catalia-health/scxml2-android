@@ -33,6 +33,7 @@ public class Var extends Action {
      * Serial version UID.
      */
     private static final long serialVersionUID = 1L;
+    private static final String TAG = "Var";
 
     /**
      * The name of the variable to be created.
@@ -100,10 +101,8 @@ public class Var extends Action {
         Object varObj = eval.eval(ctx, expr);
         ctx.setLocal(getNamespacesKey(), null);
         ctx.setLocal(name, varObj);
-        if (exctx.getAppLog().isDebugEnabled()) {
-            exctx.getAppLog().debug("<var>: Defined variable '" + name
+        android.util.Log.d(TAG, "<var>: Defined variable '" + name
                 + "' with initial value '" + String.valueOf(varObj) + "'");
-        }
         TriggerEvent ev = new TriggerEvent(name + ".change", TriggerEvent.CHANGE_EVENT);
         exctx.getInternalIOProcessor().addEvent(ev);
     }

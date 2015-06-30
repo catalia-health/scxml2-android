@@ -22,7 +22,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.FactoryConfigurationError;
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.apache.commons.logging.LogFactory;
+import android.util.*;
 import org.apache.commons.scxml2.ActionExecutionContext;
 import org.apache.commons.scxml2.Context;
 import org.apache.commons.scxml2.Evaluator;
@@ -42,6 +42,7 @@ public class Assign extends Action implements PathResolverHolder {
      * Serial version UID.
      */
     private static final long serialVersionUID = 1L;
+    private static final String TAG = "Assign";
 
     /**
      * Left hand side expression evaluating to a location within
@@ -186,9 +187,7 @@ public class Assign extends Action implements PathResolverHolder {
         }
 
         evaluator.evalAssign(ctx, location, data, type, attr);
-        if (exctx.getAppLog().isDebugEnabled()) {
-            exctx.getAppLog().debug("<assign>: '" + location + "' updated");
-        }
+        android.util.Log.d(TAG, "<assign>: '" + location + "' updated");
         // TODO: introduce a optional 'trace.change' setting or something alike to enable .change events,
        //        but don't do this by default as it can interfere with transitions not expecting such events
         /*
@@ -233,8 +232,6 @@ public class Assign extends Action implements PathResolverHolder {
      * @param throwable The throwable to log about
      */
     private void logError(Throwable throwable) {
-        org.apache.commons.logging.Log log = LogFactory.
-            getLog(Assign.class);
-        log.error(throwable.getMessage(), throwable);
+        android.util.Log.e(TAG, throwable.getMessage(), throwable);
     }
 }

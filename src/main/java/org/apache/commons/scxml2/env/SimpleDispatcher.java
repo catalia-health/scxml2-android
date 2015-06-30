@@ -23,8 +23,7 @@ import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import android.util.Log;
 import org.apache.commons.scxml2.EventDispatcher;
 import org.apache.commons.scxml2.SCXMLIOProcessor;
 import org.apache.commons.scxml2.TriggerEvent;
@@ -46,12 +45,14 @@ public class SimpleDispatcher implements EventDispatcher, Serializable {
 
      /** Serial version UID. */
     private static final long serialVersionUID = 1L;
+    private static final String TAG = "SimpleDispatcher";
 
     /**
      * TimerTask implementation.
      */
     class DelayedEventTask extends TimerTask {
 
+        private static final String TAG = "DelayedEventTask";
         /**
          * The ID of the &lt;send&gt; element.
          */
@@ -95,39 +96,16 @@ public class SimpleDispatcher implements EventDispatcher, Serializable {
         public void run() {
             timers.remove(id);
             target.addEvent(new TriggerEvent(event, TriggerEvent.SIGNAL_EVENT, payload));
-            if (log.isDebugEnabled()) {
-                log.debug("Fired event '" + event + "' as scheduled by "
-                        + "<send> with id '" + id + "'");
-            }
+            Log.d(TAG, "Fired event '" + event + "' as scheduled by "
+                    + "<send> with id '" + id + "'");
         }
     }
-
-    /** Implementation independent log category. */
-     private Log log = LogFactory.getLog(EventDispatcher.class);
 
     /**
      * The <code>Map</code> of active <code>Timer</code>s, keyed by
      * &lt;send&gt; element <code>id</code>s.
      */
     private Map<String, Timer> timers = Collections.synchronizedMap(new HashMap<String, Timer>());
-
-    /**
-     * Get the log instance.
-     *
-     * @return The current log instance
-     */
-    protected Log getLog() {
-        return log;
-    }
-
-    /**
-     * Sets the log instance
-     *
-     * @param log the new log instance
-     */
-    protected void setLog(Log log) {
-        this.log = log;
-    }
 
     /**
      * Get the current timers.
@@ -142,19 +120,15 @@ public class SimpleDispatcher implements EventDispatcher, Serializable {
      * @see EventDispatcher#cancel(String)
      */
     public void cancel(final String sendId) {
-        if (log.isInfoEnabled()) {
-            log.info("cancel( sendId: " + sendId + ")");
-        }
+        Log.i(TAG, "cancel( sendId: " + sendId + ")");
         if (!timers.containsKey(sendId)) {
             return; // done, we don't track this one or its already expired
         }
         Timer timer = timers.get(sendId);
         if (timer != null) {
             timer.cancel();
-            if (log.isDebugEnabled()) {
-                log.debug("Cancelled event scheduled by <send> with id '"
-                        + sendId + "'");
-            }
+            Log.d(TAG, "Cancelled event scheduled by <send> with id '"
+                    + sendId + "'");
         }
         timers.remove(sendId);
     }
@@ -164,7 +138,7 @@ public class SimpleDispatcher implements EventDispatcher, Serializable {
      */
     public void send(final Map<String, SCXMLIOProcessor> ioProcessors, final String id, final String target,
             final String type, final String event, final Object data, final Object hints, final long delay) {
-        if (log.isInfoEnabled()) {
+        {
             StringBuilder buf = new StringBuilder();
             buf.append("send ( id: ").append(id);
             buf.append(", target: ").append(target);
@@ -174,7 +148,7 @@ public class SimpleDispatcher implements EventDispatcher, Serializable {
             buf.append(", hints: ").append(String.valueOf(hints));
             buf.append(", delay: ").append(delay);
             buf.append(')');
-            log.info(buf.toString());
+            Log.i(TAG, buf.toString());
         }
 
         // We only handle the "scxml" type (which is the default too) and optionally the #_internal target
@@ -199,18 +173,14 @@ public class SimpleDispatcher implements EventDispatcher, Serializable {
             }
             else {
                 // We know of no other target
-                if (log.isWarnEnabled()) {
-                    log.warn("<send>: Unavailable target - " + target);
-                }
+                Log.w(TAG, "<send>: Unavailable target - " + target);
                 ioProcessors.get(SCXMLIOProcessor.INTERNAL_EVENT_PROCESSOR).
                         addEvent(new TriggerEvent(TriggerEvent.ERROR_EXECUTION, TriggerEvent.ERROR_EVENT));
                 return; // done
             }
 
             if (event == null) {
-                if (log.isWarnEnabled()) {
-                    log.warn("<send>: Cannot send without event name");
-                }
+                Log.w(TAG, "<send>: Cannot send without event name");
                 ioProcessors.get(SCXMLIOProcessor.INTERNAL_EVENT_PROCESSOR).
                         addEvent(new TriggerEvent(TriggerEvent.ERROR_EXECUTION, TriggerEvent.ERROR_EVENT));
             }
@@ -220,20 +190,16 @@ public class SimpleDispatcher implements EventDispatcher, Serializable {
                 Timer timer = new Timer(true);
                 timer.schedule(new DelayedEventTask(id, event, data, ioProcessor), delay);
                 timers.put(id, timer);
-                if (log.isDebugEnabled()) {
-                    log.debug("Scheduled event '" + event + "' with delay "
-                            + delay + "ms, as specified by <send> with id '"
-                            + id + "'");
-                }
+                Log.d(TAG, "Scheduled event '" + event + "' with delay "
+                        + delay + "ms, as specified by <send> with id '"
+                        + id + "'");
             }
             else {
                 ioProcessor.addEvent(new TriggerEvent(event, TriggerEvent.SIGNAL_EVENT, data));
             }
         }
         else {
-            if (log.isWarnEnabled()) {
-                log.warn("<send>: Unsupported type - " + type);
-            }
+            Log.w(TAG, "<send>: Unsupported type - " + type);
             ioProcessors.get(SCXMLIOProcessor.INTERNAL_EVENT_PROCESSOR).
                     addEvent(new TriggerEvent(TriggerEvent.ERROR_EXECUTION, TriggerEvent.ERROR_EVENT));
         }

@@ -18,8 +18,7 @@ package org.apache.commons.scxml2.env;
 
 import java.io.Serializable;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import android.util.Log;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXParseException;
 
@@ -35,9 +34,7 @@ public class SimpleErrorHandler implements ErrorHandler, Serializable {
     private static final String MSG_PREFIX = "SCXML SAX Parsing: ";
     /** Message postfix. */
     private static final String MSG_POSTFIX = " Correct the SCXML document.";
-
-    /** Log. */
-    private Log log = LogFactory.getLog(getClass());
+    private static final String TAG = "SimpleErrorHandler";
 
     /**
      * Constructor.
@@ -50,30 +47,24 @@ public class SimpleErrorHandler implements ErrorHandler, Serializable {
      * @see ErrorHandler#error(SAXParseException)
      */
     public void error(final SAXParseException exception) {
-        if (log.isErrorEnabled()) {
-            log.error(MSG_PREFIX + exception.getMessage() + MSG_POSTFIX,
+        Log.e(TAG, MSG_PREFIX + exception.getMessage() + MSG_POSTFIX,
                 exception);
-        }
     }
 
     /**
      * @see ErrorHandler#fatalError(SAXParseException)
      */
     public void fatalError(final SAXParseException exception) {
-        if (log.isFatalEnabled()) {
-            log.fatal(MSG_PREFIX + exception.getMessage() + MSG_POSTFIX,
-                exception);
-        }
+        Log.e(TAG, MSG_PREFIX + exception.getMessage() + MSG_POSTFIX,
+            exception);
     }
 
     /**
      * @see ErrorHandler#warning(SAXParseException)
      */
     public void warning(final SAXParseException exception) {
-        if (log.isWarnEnabled()) {
-            log.warn(MSG_PREFIX + exception.getMessage() + MSG_POSTFIX,
-                exception);
-        }
+        Log.w(TAG, MSG_PREFIX + exception.getMessage() + MSG_POSTFIX,
+            exception);
     }
 }
 

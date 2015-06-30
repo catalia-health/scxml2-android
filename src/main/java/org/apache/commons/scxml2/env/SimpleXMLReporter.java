@@ -16,14 +16,14 @@
  */
 package org.apache.commons.scxml2.env;
 
+import android.util.Log;
+
 import java.io.Serializable;
 
 import javax.xml.stream.Location;
 import javax.xml.stream.XMLReporter;
 import javax.xml.stream.XMLStreamException;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 /**
  * Custom {@link XMLReporter} that logs the StAX parsing warnings in the
@@ -35,9 +35,7 @@ public class SimpleXMLReporter implements XMLReporter, Serializable {
 
     /** Serial version UID. */
     private static final long serialVersionUID = 1L;
-
-    /** Log. */
-    private Log log = LogFactory.getLog(getClass());
+    private static final String TAG = "SimpleXMLReporter";
 
     /**
      * Constructor.
@@ -52,9 +50,7 @@ public class SimpleXMLReporter implements XMLReporter, Serializable {
     public void report(final String message, final String errorType, final Object relatedInformation,
             final Location location)
     throws XMLStreamException {
-        if (log.isWarnEnabled()) {
-            log.warn("[" + errorType + "] " + message + " (" + relatedInformation + ") at " + location);
-        }
+        Log.w(TAG, "[" + errorType + "] " + message + " (" + relatedInformation + ") at " + location);
 
     }
 

@@ -16,9 +16,7 @@
  */
 package org.apache.commons.scxml2.model;
 
-import org.apache.commons.logging.LogFactory;
 
-import org.apache.commons.logging.Log;
 
 /**
  * A custom action is simply a tuple consisting of a namespace URI,
@@ -62,6 +60,7 @@ public class CustomAction {
      */
     private static final String ERR_NOT_AN_ACTION =
         "Custom SCXML action does not extend Action superclass";
+    private static final String TAG = "CustomAction";
 
     /**
      * The namespace this custom action belongs to.
@@ -90,21 +89,20 @@ public class CustomAction {
      */
     public CustomAction(final String namespaceURI, final String localName,
             final Class<? extends Action> actionClass) {
-        Log log = LogFactory.getLog(CustomAction.class);
         if (namespaceURI == null || namespaceURI.trim().length() == 0) {
-            log.error(ERR_NO_NAMESPACE);
+            android.util.Log.e(TAG, ERR_NO_NAMESPACE);
             throw new IllegalArgumentException(ERR_NO_NAMESPACE);
         }
         if (namespaceURI.trim().equalsIgnoreCase(NAMESPACE_SCXML)) {
-            log.error(ERR_RESERVED_NAMESPACE);
+            android.util.Log.e(TAG, ERR_RESERVED_NAMESPACE);
             throw new IllegalArgumentException(ERR_RESERVED_NAMESPACE);
         }
         if (localName == null || localName.trim().length() == 0) {
-            log.error(ERR_NO_LOCAL_NAME);
+            android.util.Log.e(TAG, ERR_NO_LOCAL_NAME);
             throw new IllegalArgumentException(ERR_NO_LOCAL_NAME);
         }
         if (actionClass == null || !Action.class.isAssignableFrom(actionClass)) {
-            log.error(ERR_NOT_AN_ACTION);
+            android.util.Log.e(TAG, ERR_NOT_AN_ACTION);
             throw new IllegalArgumentException(ERR_NOT_AN_ACTION);
         }
         this.namespaceURI = namespaceURI;

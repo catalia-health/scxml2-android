@@ -21,8 +21,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import android.util.Log;
 import org.apache.commons.scxml2.ErrorReporter;
 import org.apache.commons.scxml2.model.Data;
 import org.apache.commons.scxml2.model.EnterableState;
@@ -39,8 +38,7 @@ public class SimpleErrorReporter implements ErrorReporter, Serializable {
 
     /** Serial version UID. */
     private static final long serialVersionUID = 1L;
-    /** Log. */
-    private Log log = LogFactory.getLog(getClass());
+    private static final String TAG = "SimpleErrorReporter";
 
     /**
      * Constructor.
@@ -124,10 +122,7 @@ public class SimpleErrorReporter implements ErrorReporter, Serializable {
      */
     protected void handleErrorMessage(final String errorCode, final String errDetail,
                                final Object errCtx, final CharSequence errorMessage) {
-
-        if (log.isWarnEnabled()) {
-            log.warn(errorMessage.toString());
-        }
+        Log.w(TAG, errorMessage.toString());
     }
 }
 

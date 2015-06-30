@@ -32,6 +32,7 @@ public class Raise extends Action {
      * Serial version UID.
      */
     private static final long serialVersionUID = 1L;
+    private static final String TAG = "Raise";
 
     /**
      * The event to be generated.
@@ -69,9 +70,7 @@ public class Raise extends Action {
     @Override
     public void execute(ActionExecutionContext exctx) throws ModelException, SCXMLExpressionException {
 
-        if (exctx.getAppLog().isDebugEnabled()) {
-            exctx.getAppLog().debug("<raise>: Adding event '" + event + "' to list of derived events.");
-        }
+        android.util.Log.d(TAG, "<raise>: Adding event '" + event + "' to list of derived events.");
         TriggerEvent ev = new TriggerEvent(event, TriggerEvent.SIGNAL_EVENT);
         exctx.getInternalIOProcessor().addEvent(ev);
 

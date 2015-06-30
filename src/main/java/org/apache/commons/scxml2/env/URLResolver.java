@@ -20,8 +20,7 @@ import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import android.util.Log;
 import org.apache.commons.scxml2.PathResolver;
 
 /**
@@ -33,9 +32,7 @@ public class URLResolver implements PathResolver, Serializable {
 
     /** Serial version UID. */
     private static final long serialVersionUID = 1L;
-
-    /** Implementation independent log category. */
-    private Log log = LogFactory.getLog(PathResolver.class);
+    private static final String TAG = "URLResolver";
 
     /** The base URL to resolve against. */
     private URL baseURL = null;
@@ -59,7 +56,7 @@ public class URLResolver implements PathResolver, Serializable {
             combined = new URL(baseURL, ctxPath);
             return combined.toString();
         } catch (MalformedURLException e) {
-            log.error("Malformed URL", e);
+            Log.e(TAG, "Malformed URL", e);
         }
         return null;
     }
@@ -73,7 +70,7 @@ public class URLResolver implements PathResolver, Serializable {
             combined = new URL(baseURL, ctxPath);
             return new URLResolver(combined);
         } catch (MalformedURLException e) {
-            log.error("Malformed URL", e);
+            Log.e(TAG, "Malformed URL", e);
         }
         return null;
     }

@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import android.util.Log;
 import org.apache.commons.scxml2.ActionExecutionContext;
 import org.apache.commons.scxml2.Context;
 import org.apache.commons.scxml2.ErrorReporter;
@@ -73,6 +74,7 @@ public class SCXMLSemanticsImpl implements SCXMLSemantics {
      * model locations.
      */
     public static final String ERR_ILLEGAL_ALLOC = ".error.illegalalloc";
+    private static final String TAG = "SCXMLSemanticsImpl";
 
     /**
      * Optional post processing immediately following SCXMLReader. May be used
@@ -694,10 +696,8 @@ public class SCXMLSemanticsImpl implements SCXMLSemantics {
             try {
                 if ((result = exctx.getEvaluator().evalCond(context, transition.getCond())) == null) {
                     result = Boolean.FALSE;
-                    if (exctx.getAppLog().isDebugEnabled()) {
-                        exctx.getAppLog().debug("Treating as false because the cond expression was evaluated as null: '"
-                                + transition.getCond() + "'");
-                    }
+                    Log.d(TAG, "Treating as false because the cond expression was evaluated as null: '"
+                            + transition.getCond() + "'");
                 }
             }
             catch (SCXMLExpressionException e) {
@@ -1078,7 +1078,7 @@ public class SCXMLSemanticsImpl implements SCXMLSemantics {
                     try {
                         inv.parentEvent(event);
                     } catch (InvokerException ie) {
-                        exctx.getAppLog().error(ie.getMessage(), ie);
+                        Log.e(TAG, ie.getMessage(), ie);
                         throw new ModelException(ie.getMessage(), ie.getCause());
                     }
                 }

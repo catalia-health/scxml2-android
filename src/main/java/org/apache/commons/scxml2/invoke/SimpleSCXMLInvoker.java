@@ -31,6 +31,7 @@ import org.apache.commons.scxml2.env.SimpleSCXMLListener;
 import org.apache.commons.scxml2.io.SCXMLReader;
 import org.apache.commons.scxml2.model.ModelException;
 import org.apache.commons.scxml2.model.SCXML;
+import org.xmlpull.v1.XmlPullParserException;
 
 /**
  * A simple {@link Invoker} for SCXML documents. Invoked SCXML document
@@ -97,8 +98,8 @@ public class SimpleSCXMLInvoker implements Invoker, Serializable {
             throw new InvokerException(me.getMessage(), me.getCause());
         } catch (IOException ioe) {
             throw new InvokerException(ioe.getMessage(), ioe.getCause());
-        } catch (XMLStreamException xse) {
-            throw new InvokerException(xse.getMessage(), xse.getCause());
+        } catch (XmlPullParserException xppe) {
+            throw new InvokerException(xppe.getMessage(), xppe.getCause());
         }
         executor = new SCXMLExecutor(parentSCXMLExecutor);
         try {

@@ -19,7 +19,6 @@ package org.apache.commons.scxml2.model;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import org.apache.commons.logging.Log;
 import org.apache.commons.scxml2.ActionExecutionContext;
 import org.apache.commons.scxml2.Context;
 import org.apache.commons.scxml2.Evaluator;
@@ -63,6 +62,7 @@ public class Send extends NamelistHolder implements ContentContainer {
      * The number of milliseconds in a minute.
      */
     private static final long MILLIS_IN_A_MINUTE = 60000L;
+    private static final String TAG = "Send";
 
     /**
      * The ID of the send message.
@@ -364,18 +364,16 @@ public class Send extends NamelistHolder implements ContentContainer {
         String targetValue = target;
         if (targetValue == null && targetexpr != null) {
             targetValue = (String) getTextContentIfNodeResult(eval.eval(ctx, targetexpr));
-            if ((targetValue == null || targetValue.trim().length() == 0)
-                    && exctx.getAppLog().isWarnEnabled()) {
-                exctx.getAppLog().warn("<send>: target expression \"" + targetexpr
+            if ((targetValue == null || targetValue.trim().length() == 0)) {
+                android.util.Log.w(TAG, "<send>: target expression \"" + targetexpr
                         + "\" evaluated to null or empty String");
             }
         }
         String typeValue = type;
         if (typeValue == null && typeexpr != null) {
             typeValue = (String) getTextContentIfNodeResult(eval.eval(ctx, typeexpr));
-            if ((typeValue == null || typeValue.trim().length() == 0)
-                    && exctx.getAppLog().isWarnEnabled()) {
-                exctx.getAppLog().warn("<send>: type expression \"" + typeexpr
+            if ((typeValue == null || typeValue.trim().length() == 0)) {
+                android.util.Log.w(TAG, "<send>: type expression \"" + typeexpr
                         + "\" evaluated to null or empty String");
             }
         }
@@ -408,7 +406,7 @@ public class Send extends NamelistHolder implements ContentContainer {
             }
         }
         if (delayString != null) {
-            wait = parseDelay(delayString, exctx.getAppLog());
+            wait = parseDelay(delayString);
         }
         String eventValue = event;
         if (eventValue == null && eventexpr != null) {
@@ -420,12 +418,10 @@ public class Send extends NamelistHolder implements ContentContainer {
         }
         Map<String, SCXMLIOProcessor> ioProcessors = (Map<String, SCXMLIOProcessor>) ctx.get(SCXMLSystemContext.IOPROCESSORS_KEY);
         ctx.setLocal(getNamespacesKey(), null);
-        if (exctx.getAppLog().isDebugEnabled()) {
-            exctx.getAppLog().debug("<send>: Dispatching event '" + eventValue
-                    + "' to target '" + targetValue + "' of target type '"
-                    + typeValue + "' with suggested delay of " + wait
-                    + "ms");
-        }
+        android.util.Log.d(TAG, "<send>: Dispatching event '" + eventValue
+                + "' to target '" + targetValue + "' of target type '"
+                + typeValue + "' with suggested delay of " + wait
+                + "ms");
         exctx.getEventDispatcher().send(ioProcessors, id, targetValue, typeValue, eventValue,
                 payload, hintsValue, wait);
     }
@@ -434,11 +430,10 @@ public class Send extends NamelistHolder implements ContentContainer {
      * Parse delay.
      *
      * @param delayString The String value of the delay, in CSS2 format
-     * @param appLog      The application log
      * @return The parsed delay in milliseconds
      * @throws SCXMLExpressionException If the delay cannot be parsed
      */
-    private long parseDelay(final String delayString, final Log appLog)
+    private long parseDelay(final String delayString)
             throws SCXMLExpressionException {
 
         long wait = 0L;
@@ -461,7 +456,7 @@ public class Send extends NamelistHolder implements ContentContainer {
             try {
                 wait = Long.parseLong(numericDelay);
             } catch (NumberFormatException nfe) {
-                appLog.error(nfe.getMessage(), nfe);
+                android.util.Log.e(TAG, nfe.getMessage(), nfe);
                 throw new SCXMLExpressionException(nfe.getMessage(), nfe);
             }
             wait *= multiplier;

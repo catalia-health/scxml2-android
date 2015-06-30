@@ -18,8 +18,7 @@ package org.apache.commons.scxml2.env;
 
 import java.io.Serializable;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import android.util.Log;
 import org.apache.commons.scxml2.SCXMLListener;
 import org.apache.commons.scxml2.model.EnterableState;
 import org.apache.commons.scxml2.model.Transition;
@@ -33,26 +32,20 @@ public class SimpleSCXMLListener implements SCXMLListener, Serializable {
 
     /** Serial version UID. */
     private static final long serialVersionUID = 1L;
-    /** Log. */
-    private Log log = LogFactory.getLog(getClass());
-
+    private static final String TAG = "SimpleSCXMLListener";
 
     /**
      * @see SCXMLListener#onEntry(EnterableState)
      */
     public void onEntry(final EnterableState state) {
-        if (log.isInfoEnabled()) {
-            log.info("enter " + LogUtils.getTTPath(state));
-        }
+        Log.i(TAG, "enter " + LogUtils.getTTPath(state));
     }
 
     /**
      * @see SCXMLListener#onExit(EnterableState)
      */
     public void onExit(final EnterableState state) {
-        if (log.isInfoEnabled()) {
-            log.info("exit " + LogUtils.getTTPath(state));
-        }
+        Log.i(TAG, "exit " + LogUtils.getTTPath(state));
     }
 
     /**
@@ -60,9 +53,7 @@ public class SimpleSCXMLListener implements SCXMLListener, Serializable {
      */
     public void onTransition(final TransitionTarget from,
             final TransitionTarget to, final Transition transition, String event) {
-        if (log.isInfoEnabled()) {
-            log.info("transition " + LogUtils.transToString(from, to, transition, event));
-        }
+        Log.i(TAG, "transition " + LogUtils.transToString(from, to, transition, event));
     }
 
 }

@@ -21,8 +21,7 @@ import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import android.util.Log;
 import org.apache.commons.scxml2.invoke.Invoker;
 import org.apache.commons.scxml2.model.EnterableState;
 import org.apache.commons.scxml2.model.ModelException;
@@ -46,11 +45,7 @@ import org.apache.commons.scxml2.semantics.SCXMLSemanticsImpl;
  */
 public class SCXMLExecutor implements SCXMLIOProcessor {
 
-    /**
-     * The Logger for the SCXMLExecutor.
-     */
-    private Log log = LogFactory.getLog(SCXMLExecutor.class);
-
+    private static final String TAG = "SCXMLExecutor";
     /**
      * Parent SCXMLExecutor
      */
@@ -521,14 +516,12 @@ public class SCXMLExecutor implements SCXMLIOProcessor {
      * Log the current set of active states.
      */
     protected void logState() {
-        if (log.isDebugEnabled()) {
-            StringBuilder sb = new StringBuilder("Current States: [ ");
-            for (EnterableState es : getStatus().getStates()) {
-                sb.append(es.getId()).append(", ");
-            }
-            int length = sb.length();
-            sb.delete(length - 2, length).append(" ]");
-            log.debug(sb.toString());
+        StringBuilder sb = new StringBuilder("Current States: [ ");
+        for (EnterableState es : getStatus().getStates()) {
+            sb.append(es.getId()).append(", ");
         }
+        int length = sb.length();
+        sb.delete(length - 2, length).append(" ]");
+        Log.d(TAG, sb.toString());
     }
 }

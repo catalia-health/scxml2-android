@@ -23,8 +23,6 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.Queue;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.commons.scxml2.env.SimpleDispatcher;
 import org.apache.commons.scxml2.env.SimpleErrorReporter;
 import org.apache.commons.scxml2.invoke.Invoker;
@@ -48,11 +46,6 @@ public class SCXMLExecutionContext implements SCXMLIOProcessor {
      * Alias for {@link #SCXML_INVOKER_TYPE_URI}
      */
     public static final String SCXML_INVOKER_TYPE = "scxml";
-
-    /**
-     * SCXML Execution Logger for the application.
-     */
-    private Log appLog = LogFactory.getLog(SCXMLExecutionContext.class);
 
     /**
      * The action execution context instance, providing restricted access to this execution context
@@ -224,13 +217,6 @@ public class SCXMLExecutionContext implements SCXMLIOProcessor {
         scInstance.initialize();
         initializeIOProcessors();
         scInstance.setRunning(true);
-    }
-
-    /**
-     * @return Returns the SCXML Execution Logger for the application
-     */
-    public Log getAppLog() {
-        return appLog;
     }
 
     /**

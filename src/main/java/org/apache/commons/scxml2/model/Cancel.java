@@ -32,6 +32,7 @@ public class Cancel extends Action {
      * Serial version UID.
      */
     private static final long serialVersionUID = 1L;
+    private static final String TAG = "Cancel";
 
     /**
      * Constructor.
@@ -70,7 +71,7 @@ public class Cancel extends Action {
 
     /**
      * Get the expression that evaluates to the ID of the send message that should be cancelled.
-     * 
+     *
      * @return the expression that evaluates to the ID of the send message that should be cancelled.
      */
     public String getSendidexpr() {
@@ -79,7 +80,7 @@ public class Cancel extends Action {
 
     /**
      * Set the expression that evaluates to the ID of the send message that should be cancelled.
-     * 
+     *
      * @param sendidexpr the expression that evaluates to the ID of the send message that should be cancelled.
      */
     public void setSendidexpr(String sendidexpr) {
@@ -99,9 +100,8 @@ public class Cancel extends Action {
         String sendidValue = sendid;
         if (sendidValue == null && sendidexpr != null) {
             sendidValue = (String) getTextContentIfNodeResult(eval.eval(ctx, sendidexpr));
-            if ((sendidValue == null || sendidValue.trim().length() == 0)
-                    && exctx.getAppLog().isWarnEnabled()) {
-                exctx.getAppLog().warn("<send>: sendid expression \"" + sendidexpr
+            if ((sendidValue == null || sendidValue.trim().length() == 0)) {
+                android.util.Log.w(TAG, "<send>: sendid expression \"" + sendidexpr
                         + "\" evaluated to null or empty String");
             }
         }

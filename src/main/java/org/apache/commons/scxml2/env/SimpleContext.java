@@ -20,8 +20,7 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import android.util.Log;
 import org.apache.commons.scxml2.Context;
 import org.apache.commons.scxml2.SCXMLSystemContext;
 
@@ -33,9 +32,7 @@ public class SimpleContext implements Context, Serializable {
 
     /** Serial version UID. */
     private static final long serialVersionUID = 1L;
-    /** Implementation independent log category. */
-    private static final Log DEFAULT_LOG = LogFactory.getLog(Context.class);
-    private Log log = DEFAULT_LOG;
+    private static final String TAG = "SimpleContext";
     /** The parent Context to this Context. */
     private Context parent;
     /** The Map of variables and their values in this Context. */
@@ -175,9 +172,7 @@ public class SimpleContext implements Context, Serializable {
      */
     public void setLocal(final String name, final Object value) {
         getVars().put(name, value);
-        if (log.isDebugEnabled()) {
-            log.debug(name + " = " + String.valueOf(value));
-        }
+        Log.d(TAG, name + " = " + String.valueOf(value));
     }
 
     /**
@@ -196,24 +191,6 @@ public class SimpleContext implements Context, Serializable {
      */
     public Map<String, Object> getVars() {
         return vars;
-    }
-
-    /**
-     * Set the log used by this <code>Context</code> instance.
-     *
-     * @param log The new log.
-     */
-    protected void setLog(final Log log) {
-        this.log = log;
-    }
-
-    /**
-     * Get the log used by this <code>Context</code> instance.
-     *
-     * @return Log The log being used.
-     */
-    protected Log getLog() {
-        return log;
     }
 
 }
