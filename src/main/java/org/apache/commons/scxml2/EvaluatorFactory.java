@@ -19,8 +19,6 @@ package org.apache.commons.scxml2;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.apache.commons.scxml2.env.groovy.GroovyEvaluator;
-import org.apache.commons.scxml2.env.javascript.JSEvaluator;
 import org.apache.commons.scxml2.env.jexl.JexlEvaluator;
 import org.apache.commons.scxml2.env.minimal.MinimalEvaluator;
 import org.apache.commons.scxml2.env.xpath.XPathEvaluator;
@@ -38,8 +36,6 @@ import static org.apache.commons.scxml2.Evaluator.DEFAULT_DATA_MODEL;
  *  The builtin supported providers are:
  *  <ul>
  *      <li>no or empty datamodel (default) or datamodel="jexl": {@link JexlEvaluator.JexlEvaluatorProvider}</li>
- *      <li>datamodel="ecmascript": {@link JSEvaluator.JSEvaluatorProvider}</li>
- *      <li>datamodel="groovy": {@link GroovyEvaluator.GroovyEvaluatorProvider}</li>
  *      <li>datamodel="xpath": {@link XPathEvaluator.XPathEvaluatorProvider}</li>
  *      <li>datamodel="null": {@link MinimalEvaluator.MinimalEvaluatorProvider}</li>
  *  </ul>
@@ -62,8 +58,6 @@ public class EvaluatorFactory {
 
     private EvaluatorFactory() {
         providers.put(XPathEvaluator.SUPPORTED_DATA_MODEL, new XPathEvaluator.XPathEvaluatorProvider());
-        providers.put(JSEvaluator.SUPPORTED_DATA_MODEL, new JSEvaluator.JSEvaluatorProvider());
-        providers.put(GroovyEvaluator.SUPPORTED_DATA_MODEL, new GroovyEvaluator.GroovyEvaluatorProvider());
         providers.put(JexlEvaluator.SUPPORTED_DATA_MODEL, new JexlEvaluator.JexlEvaluatorProvider());
         providers.put(MinimalEvaluator.SUPPORTED_DATA_MODEL, new MinimalEvaluator.MinimalEvaluatorProvider());
         providers.put(DEFAULT_DATA_MODEL, providers.get(JexlEvaluator.SUPPORTED_DATA_MODEL));
