@@ -21,16 +21,12 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URL;
 
-import javax.xml.stream.XMLStreamException;
-
 import android.util.Log;
 import org.apache.commons.scxml2.Context;
 import org.apache.commons.scxml2.Evaluator;
 import org.apache.commons.scxml2.SCXMLExecutor;
 import org.apache.commons.scxml2.SCXMLListener;
 import org.apache.commons.scxml2.TriggerEvent;
-import org.apache.commons.scxml2.env.jexl.JexlContext;
-import org.apache.commons.scxml2.env.jexl.JexlEvaluator;
 import org.apache.commons.scxml2.io.SCXMLReader;
 import org.apache.commons.scxml2.model.EnterableState;
 import org.apache.commons.scxml2.model.ModelException;
@@ -89,18 +85,6 @@ public abstract class AbstractStateMachine {
     private static final Object[] PARAMETERS = new Object[0];
 
     /**
-     * Convenience constructor, object instantiation incurs parsing cost.
-     *
-     * @param scxmlDocument The URL pointing to the SCXML document that
-     *                      describes the &quot;lifecycle&quot; of the
-     *                      instances of this class.
-     */
-    public AbstractStateMachine(final URL scxmlDocument) throws ModelException {
-        // default is JEXL
-        this(scxmlDocument, new JexlContext(), new JexlEvaluator());
-    }
-
-    /**
      * Primary constructor, object instantiation incurs parsing cost.
      *
      * @param scxmlDocument The URL pointing to the SCXML document that
@@ -124,20 +108,6 @@ public abstract class AbstractStateMachine {
             logError(me);
         }
         initialize(stateMachine, rootCtx, evaluator);
-    }
-
-    /**
-     * Convenience constructor.
-     *
-     * @param stateMachine The parsed SCXML instance that
-     *                     describes the &quot;lifecycle&quot; of the
-     *                     instances of this class.
-     *
-     * @since 0.7
-     */
-    public AbstractStateMachine(final SCXML stateMachine) throws ModelException {
-        // default is JEXL
-        this(stateMachine, new JexlContext(), new JexlEvaluator());
     }
 
     /**

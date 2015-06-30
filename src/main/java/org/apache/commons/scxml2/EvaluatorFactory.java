@@ -19,9 +19,7 @@ package org.apache.commons.scxml2;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.apache.commons.scxml2.env.jexl.JexlEvaluator;
 import org.apache.commons.scxml2.env.minimal.MinimalEvaluator;
-import org.apache.commons.scxml2.env.xpath.XPathEvaluator;
 import org.apache.commons.scxml2.model.ModelException;
 import org.apache.commons.scxml2.model.SCXML;
 import static org.apache.commons.scxml2.Evaluator.DEFAULT_DATA_MODEL;
@@ -35,8 +33,7 @@ import static org.apache.commons.scxml2.Evaluator.DEFAULT_DATA_MODEL;
  * <p>
  *  The builtin supported providers are:
  *  <ul>
- *      <li>no or empty datamodel (default) or datamodel="jexl": {@link JexlEvaluator.JexlEvaluatorProvider}</li>
- *      <li>datamodel="xpath": {@link XPathEvaluator.XPathEvaluatorProvider}</li>
+ *      <li>no or empty datamodel (default)</li>
  *      <li>datamodel="null": {@link MinimalEvaluator.MinimalEvaluatorProvider}</li>
  *  </ul>
  *  </p>
@@ -57,10 +54,7 @@ public class EvaluatorFactory {
     private final Map<String, EvaluatorProvider> providers = new ConcurrentHashMap<String, EvaluatorProvider>();
 
     private EvaluatorFactory() {
-        providers.put(XPathEvaluator.SUPPORTED_DATA_MODEL, new XPathEvaluator.XPathEvaluatorProvider());
-        providers.put(JexlEvaluator.SUPPORTED_DATA_MODEL, new JexlEvaluator.JexlEvaluatorProvider());
         providers.put(MinimalEvaluator.SUPPORTED_DATA_MODEL, new MinimalEvaluator.MinimalEvaluatorProvider());
-        providers.put(DEFAULT_DATA_MODEL, providers.get(JexlEvaluator.SUPPORTED_DATA_MODEL));
     }
 
     public static void setDefaultProvider(EvaluatorProvider defaultProvider) {
