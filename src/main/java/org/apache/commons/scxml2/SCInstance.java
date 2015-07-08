@@ -174,9 +174,6 @@ public class SCInstance implements Serializable {
         histories.clear();
         stateConfiguration.clear();
 
-        // Clone root datamodel
-        Datamodel rootdm = stateMachine.getDatamodel();
-        cloneDatamodel(rootdm, getGlobalContext(), evaluator, errorReporter);
         initialized = true;
     }
 
